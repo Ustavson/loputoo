@@ -2,6 +2,7 @@
 
 **Autor:** Karl-Ustav Kõlar
 **Teema (töönimi):** Tartu linnaruumi 3D-maailma loomine Gaussi splattimise (*3D Gaussian Splatting*) meetodil
+_Märkus: teema registreerimisvormis esitasin teise pealkirja. Lõplik pealkiri täpsustub juhendajatega._
 **Juhendajad:** _[täita]_
 **Koostatud:** 01.11.2026. Ajakava vaadatakse üle igal juhendajakohtumisel.
 
@@ -12,7 +13,7 @@
 | Kuupäev | Mis | Märkus |
 |---|---|---|
 | 07.10.2026 (K) | Esimene kohtumine juhendajatega | toimunud |
-| **02.11.2026 (E)** | **Teema ja juhendaja(te) registreerimine** | instituudi tähtaeg |
+| **02.11.2026 (E)** | **Teema ja juhendaja(te) registreerimine** | instituudi tähtaeg; esitatud (teise pealkirjaga) |
 | 04.11.2026 (K) | Juhendajakohtumine | |
 | 16.11.2026 (E) | Lugemisülesanne (EBSCO Discovery, refereerimine) Moodle'isse | LTAT.01.004 |
 | 08.12.2026 (T) | Refereeriv tekst (lõputöö osa), mustand Moodle'isse | LTAT.01.004 |
@@ -31,7 +32,6 @@
 |---|---|---|
 | Kas filmime Tartu ise või kasutame olemasolevaid andmeid? | Juhendajad ootavad vastuseid | Ajakavas on kaks stsenaariumit (A ja B, vt etapp 5). |
 | Kui filmime ise, siis millal? | Teadmata | Vt allpool filmimise ajaaknaid. |
-| Kus mudeleid treenin? | Selgitada 04.11 | gsplat vajab NVIDIA (CUDA) GPU-d. Kui oma arvutis seda pole, on vaja ligipääsu nt TÜ HPC keskuse klastrile. |
 | Kaitsmise täpne päev | Selgub kevadel | Kaitsmiseks valmistun 04.06 seisuga. |
 
 **Põhimõte:** kõik, mis andmetest ei sõltu, teen ära enne andmete otsust: kirjanduse ülevaate, teooria ning töövoo ehitamise ja testimise avalike andmestike ja enda testvõtetega. Nii ei jää töö ootamise taha seisma.
@@ -54,7 +54,7 @@
 ### Etapp 1. Projekti käivitamine (01.11–04.11)
 - [x] Projekti baas: git-hoidla, kaustastruktuur, LaTeX-i põhi, uurimislogi (01.11)
 - [x] Ajakava (01.11)
-- [ ] Teema ja juhendajate registreerimine (**02.11**)
+- [x] Teema ja juhendajate registreerimine (**02.11**); vormis on teine pealkiri kui siin toodud töönimi
 - [ ] Scaniverse: rohkem ruume ja pikemad videod
 - [ ] gsplat: paigaldamine ja esimene treening
 - **Väljund:** 04.11 kohtumisel näitan Scaniverse'i ja gsplat'i tulemusi ning ajakava.
@@ -116,9 +116,9 @@ S – spetsiifiline, M – mõõdetav, A – saavutatav, R – realistlik, T –
 
 | # | S: mida täpselt | M: mille järgi mõõdan | A: kuidas saavutan | R: miks see aitab | T: tähtaeg ja ajakulu |
 |---|---|---|---|---|---|
-| 1 | Registreerin lõputöö teema ja juhendajad | Vorm on esitatud | Täidan instituudi registreerimisvormi | Kohustuslik eeldus kaitsmisele pääsemiseks | 02.11, 15 min |
+| 1 | Registreerin lõputöö teema ja juhendajad | Vorm on esitatud (tehtud, teise pealkirjaga) | Täidan instituudi registreerimisvormi | Kohustuslik eeldus kaitsmisele pääsemiseks | 02.11, 15 min |
 | 2 | Teen Scaniverse'iga uusi katseid | 3 uut ruumi + 1 vähemalt 2-minutiline video. Igaühe kohta märge logis: kestus, nähtavad vead | Filmin telefoniga ja võrdlen lühikese ja pika video tulemust | Selgub, kuidas video pikkus ja katvus kvaliteeti mõjutavad. Sellest saab hilisema filmimisjuhendi alus | 03.11, 3 h |
-| 3 | Paigaldan gsplat'i ja treenin esimese stseeni | 1 treenitud stseen, 1 renderdatud pilt ja selle PSNR | Kasutan gsplat'i näidisskripti avaliku testandmestikuga; kui GPU-d pole, selgitan välja ligipääsu | Töövoo esimene toimiv samm, mida 04.11 juhendajatele näidata | 03.11, 4 h |
+| 3 | Paigaldan gsplat'i ja treenin esimese stseeni | 1 treenitud stseen, 1 renderdatud pilt ja selle PSNR | Kasutan gsplat'i näidisskripti avaliku testandmestikuga | Töövoo esimene toimiv samm, mida 04.11 juhendajatele näidata | 03.11, 4 h |
 | 4 | Teen lugemisülesande otsingud EBSCO Discoverys | 2 päringut otsinguajaloos, ≥5 teemakohast kirjet, ½ lk otsingute võrdlust | Kasutan Advanced Searchi: sünonüümid OR-iga ühel real, read AND-iga, piirangud (aeg, märksõnad) | Leitud allikaid kasutan ka detsembri refereerivas tekstis | 10.11, 2 h |
 | 5 | Kirjutan lugemisülesande refereeringu | 1 lõik, 150–200 sõna, ≥2 allikat, tekstisisesed viited, kirjanduse loetelu, kuvatõmmised | Loen allikad läbi, panen põhimõtted märkmetesse ja kirjutan märkmete, mitte originaalteksti põhjal | Harjutan refereerimist enne pikemat teksti | 14.11: 2 h lugemist + 1 h kirjutamist; esitamine 15.11 |
 | 6 | Koostan refereeriva teksti kava | 3–5 alapealkirja, igaühe juures 1–2 allikat, kokku ≥5 allikat | Valin koondtabelist allikad, mis katavad teoreetilise ülevaate | Selge kava võimaldab juhendajatel suuna enne kirjutamist kinnitada | 18.11 kohtumiseks, 3 h |

@@ -24,3 +24,8 @@ Dated entries, newest at the bottom. Two kinds:
 - Checked the institute's 2026/27 deadlines page: topic registration **02.11.2026**, submission **12.05.2027**, defence **04.–11.06.2027**. The dates in the course handout (14 May, 5–12 June 2026) were last year's.
 - Open questions: own filming vs. existing data, filming date, GPU for gsplat (needs CUDA). The plan does all data-independent work first. Target for the data decision is the 13.01 meeting. If we film ourselves, the best window is late March to April (no snow, no leaves), by 15.04 at the latest.
 - Official LaTeX template: https://gitlab.cs.ut.ee/unitartucs-thesis-templates/bsc-msc-latex-template (not yet adopted in `thesis/`).
+
+## 2026-11-01: Timetable updates
+
+- GPU is no longer an open question: training will run on the UT HPC cluster. Removed it from the open questions in `plan/ajakava.md`.
+- Topic registration form submitted, under a different title from the working title in the timetable. The final title will be agreed with the supervisors.
