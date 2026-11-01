@@ -32,3 +32,11 @@ copy of `data/` off this laptop.
 cd thesis && latexmk
 ```
 PDF ends up in `thesis/build/main.pdf`. Requires a TeX distribution (MacTeX).
+
+## Regenerating the timetable PDF
+
+```sh
+python3 -m venv .venv && .venv/bin/pip install -r code/requirements.txt   # once
+.venv/bin/python code/md2pdf.py plan/ajakava.md                          # → plan/ajakava.pdf
+```
+Uses headless Google Chrome for printing.

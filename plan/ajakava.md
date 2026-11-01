@@ -3,7 +3,7 @@
 **Autor:** Karl-Ustav Kõlar
 **Teema (töönimi):** Tartu linnaruumi 3D-maailma loomine Gaussi splattimise (*3D Gaussian Splatting*) meetodil
 _Märkus: teema registreerimisvormis esitasin teise pealkirja. Lõplik pealkiri täpsustub juhendajatega._
-**Juhendajad:** _[täita]_
+**Juhendajad:** Tambet Matiisen, Allan Mitt
 **Koostatud:** 01.11.2026. Ajakava vaadatakse üle igal juhendajakohtumisel.
 
 ---
