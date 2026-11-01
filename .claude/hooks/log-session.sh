@@ -6,12 +6,14 @@ set -u
 cd "${CLAUDE_PROJECT_DIR:-$(dirname "$0")/../..}" || exit 0
 git rev-parse --is-inside-work-tree >/dev/null 2>&1 || exit 0
 
-state=.claude/.last-logged-head
+state=.claude/.last-logged-head   # line 1: HEAD, line 2: fingerprint of uncommitted state
 head=$(git rev-parse --verify -q HEAD || echo none)
-last=$(cat "$state" 2>/dev/null || echo "")
+last=$(sed -n 1p "$state" 2>/dev/null)
+last_fp=$(sed -n 2p "$state" 2>/dev/null)
 
 # Uncommitted changes, ignoring LOG.md itself (this hook edits it every time).
 changes=$(git status --porcelain -- . ':(exclude)LOG.md')
+fp=$( { printf '%s\n' "$changes"; git diff HEAD -- . ':(exclude)LOG.md' 2>/dev/null; } | shasum | cut -c1-16)
 
 commits=""
 if [ "$head" != none ] && [ "$head" != "$last" ]; then
@@ -22,7 +24,10 @@ if [ "$head" != none ] && [ "$head" != "$last" ]; then
   fi
 fi
 
-[ -z "$changes" ] && [ -z "$commits" ] && exit 0
+# Nothing new: no commits, and uncommitted state is empty or unchanged since last entry.
+if [ -z "$commits" ] && { [ -z "$changes" ] || [ "$fp" = "$last_fp" ]; }; then
+  exit 0
+fi
 
 {
   echo
@@ -41,5 +46,5 @@ fi
   fi
 } >> LOG.md
 
-echo "$head" > "$state"
+printf '%s\n%s\n' "$head" "$fp" > "$state"
 exit 0
