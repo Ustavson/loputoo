@@ -1,0 +1,65 @@
+# ---- Large data: lives on disk + backup, never in git ----
+data/*
+!data/MANIFEST.md
+outputs/*
+!outputs/.gitkeep
+
+# Splats, checkpoints, SfM databases (anywhere, incl. experiments/)
+*.ply
+*.splat
+*.ksplat
+*.spz
+*.pth
+*.pt
+*.ckpt
+*.db
+*.npz
+
+# Raw photo / video
+*.mp4
+*.MP4
+*.mov
+*.MOV
+*.insv
+*.insp
+*.dng
+*.DNG
+*.arw
+*.ARW
+*.cr3
+*.CR3
+*.nef
+*.NEF
+
+# ---- LaTeX build artifacts ----
+thesis/build/
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.run.xml
+*.synctex.gz
+*.toc
+*.lof
+*.lot
+*.xdv
+
+# ---- Python ----
+.venv/
+venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# ---- OS / editor ----
+.DS_Store
+.vscode/
+.idea/
+
+# ---- Claude Code local state ----
+.claude/settings.local.json
+.claude/.last-logged-head
