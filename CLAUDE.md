@@ -1,7 +1,8 @@
 # Thesis project: Gaussian splatting world of Tartu
 
-Karl-Ustav's lõputöö. Mostly writing, data and experiments; some code. Folder
-layout and what is tracked is in `README.md`.
+Karl-Ustav's BSc thesis (UT Institute of Computer Science, course LTAT.01.004). Mostly writing, data and experiments; some code. Folder
+layout and what is tracked is in `README.md`. Timetable and deadlines:
+`plan/ajakava.md` (Estonian). Check it when planning work.
 
 ## Rules
 
