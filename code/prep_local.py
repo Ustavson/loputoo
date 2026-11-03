@@ -6,8 +6,9 @@
 
 For each distinct frames + COLMAP setting it writes data/prep/<prep_key>/:
 extracted frames, the COLMAP model and prep.json. These are the folders the Colab
-notebook looks for in MyDrive/loputoo/prep/. Upload them there and Colab only
-trains. Finished folders are skipped, so rerunning picks up where it stopped.
+notebook looks for in prep/ in its Drive folder (DRIVE in the notebook). Upload
+them there and Colab only trains. Finished folders are skipped, so rerunning picks
+up where it stopped.
 
 COLMAP's database.db (features + matches, not needed for training) is moved to
 data/colmap_db/<prep_key>.db, so data/prep/ holds only what Colab needs.
@@ -71,7 +72,7 @@ def main():
     print("\n=== summary")
     for key, res in results.items():
         print(f"{key:36s} {res}")
-    print(f"\nUpload the folders in {args.out}/ to MyDrive/loputoo/prep/ on Google Drive.")
+    print(f"\nUpload the folders in {args.out}/ to prep/ in the notebook's Drive folder (MyDrive/Colab Notebooks/loputoo/prep/).")
 
 
 if __name__ == "__main__":

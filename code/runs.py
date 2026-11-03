@@ -1,7 +1,7 @@
 """The list of video -> splat runs.
 
 Read by prep_local.py (frames + COLMAP on the Mac) and by the Colab notebook
-(training). Edit it here, then copy it to MyDrive/loputoo/ next to video2splat.py.
+(training). Edit it here, then commit and push: the notebook pulls it from GitHub.
 
 One run = one video + one configuration; settings left out use DEFAULTS.
 
@@ -25,7 +25,7 @@ from pathlib import Path
 DEFAULTS = dict(frames=200, fps=None, max_size=1600, overlap=10,
                 config="default", steps=0.25, extra="")
 
-RUNS = [  # video = file name in data/videos/ (Mac) and MyDrive/loputoo/videos/ (Colab)
+RUNS = [  # video = file name in data/videos/ (Mac) and videos/ in the Drive folder (Colab)
     # short videos (38 s, 64 s): 200 frames = 3-5 frames per second, plenty
     dict(name="2026-11-03_short_1_way_quick", video="short_1_way.MOV"),
     dict(name="2026-11-03_short_2_way_quick", video="short_2_way.MOV"),   # 200 frames = 3.1 fps

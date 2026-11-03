@@ -195,6 +195,11 @@ def train(work: Path, result: Path, gsplat_dir: Path, config: str,
     trainer = gsplat_dir / "examples" / "simple_trainer.py"
     if not trainer.exists():
         sys.exit(f"[train] {trainer} not found; point --gsplat-dir at a gsplat clone")
+    # The trainer imports gsplat's examples/datasets/ folder, which has no __init__.py.
+    # Python then prefers any installed package called `datasets` (Colab ships Hugging
+    # Face's) and the import fails with "No module named 'datasets.colmap'". An empty
+    # __init__.py makes the local folder win.
+    (trainer.parent / "datasets" / "__init__.py").touch()
     t0 = time.time()
     run([sys.executable, trainer.name, config,
          "--data_dir", work.resolve(),

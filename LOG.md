@@ -104,3 +104,25 @@ Uncommitted (2):
 - Every Colab session starts on a clean machine. Most of the install time is compiling CUDA code (gsplat, fused-ssim, fused-bilagrid). The install cell now compiles them once into wheels (gsplat built from source so its CUDA code is compiled ahead of time; the PyPI wheel compiles on first use instead), saves them to `MyDrive/loputoo/wheels/<python_torch_cuda_gpu>/`, and later sessions install from there. Ordinary PyPI packages are still installed normally.
 - The cache folder name includes Python, torch, CUDA and GPU compute capability, so a Colab torch upgrade or a different GPU triggers one fresh compile instead of breaking. Compiling uses `TORCH_CUDA_ARCH_LIST` for the current GPU only, which is faster. If installing from the cache fails, the cell deletes the cache and asks to be rerun.
 - Not yet tested on Colab.
+
+## 2026-11-03: First COLMAP results on all test videos: the chains break
+
+| prep | frames placed (model 0) | how it splits |
+|---|---|---|
+| short_1_way, 200 f | 196 / 200 | one piece |
+| short_2_way, 1 / 2 / 3.1 / 5 fps | 33/64, 65/129, 101/200, 162/321 | always 2 halves, split at the middle |
+| short_2_way, 10 fps | 639 / 643 | one piece |
+| hole2, 1 fps | 136 / 414 | 9 models kept (136, 106, 16, 15, 10, …) |
+| hole1, 1 fps | 53 / 415 | 16 models kept, mostly 3–13 frames |
+
+- The global mapper splits the frames into groups that are connected by matches ("components") and reconstructs each separately; `Global mapping failed` / `Number of tracks = 0` / `no 3D points` are tiny 3-frame groups that couldn't be triangulated. gsplat uses only `sparse/0` (the largest), so the rest of the video is simply missing from the splat.
+- **short_2_way** splits exactly at the turnaround (frames 33|35, 102|107, 164|170): turning on the spot puts consecutive frames too many degrees apart to match at ≤5 fps. At 10 fps the turn is sampled densely enough and both halves join. So the frame-rate sweep isn't a like-for-like comparison: at ≤5 fps model 0 covers only the outbound walk, at 10 fps it covers both directions.
+- **hole1/hole2** break into many pieces from motion blur and rolling-shutter skew. Looking at the frames: fast pans, the phone swinging over the ground and slopes, trees leaning sideways. Each break is at a blurred frame (e.g. hole2 frame 139, a whip-pan smear between two sharp frames). Overcast November light probably means long exposures, which makes it worse.
+- COLMAP also warns that the global mapper wants a focal-length prior. We know it for this phone and mode from short_1_way (≈1370 px for 900×1600), so it could be passed to all iPhone 16 1080p videos.
+- Takeaways for the filming guide: walk slowly, turn slowly (especially at turnarounds), no fast pans, keep the phone steady and pointed at the scene rather than the ground, film in good light.
+- Pipeline options: (1) pick the sharpest frame in each time window instead of evenly spaced frames; (2) higher fps (10 fps joined short_2_way); (3) the focal prior; (4) loop-closure matching so the outbound and return passes are matched to each other.
+
+## 2026-11-03: First Colab training attempt: two fixes
+
+- The Drive folder is `MyDrive/Colab Notebooks/loputoo`, not `MyDrive/loputoo`. `DRIVE` is now set once, in the cell that mounts Drive, and checked to exist. The path has a space, so the shell commands in the install cell now quote it.
+- Training crashed with `ModuleNotFoundError: No module named 'datasets.colmap'`. gsplat's `examples/datasets/` has no `__init__.py`. For such a folder, Python prefers any installed package with the same name, and Colab ships Hugging Face's `datasets`. Reproduced locally; fixed by `video2splat.py` creating an empty `__init__.py` there before starting the trainer (also covers HPC, if `datasets` is installed there).
