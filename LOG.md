@@ -98,3 +98,9 @@ Uncommitted (2):
 
 - The notebook is now opened straight from GitHub (colab.research.google.com/github/Ustavson/loputoo/blob/main/code/video2splat_colab.ipynb), and it clones or pulls the repo into `/content/loputoo` before running. Drive holds only data (`videos/`, `prep/`, `outputs/`). Why: copying `video2splat.py`/`runs.py` to Drive by hand after every change was error-prone, and the Drive copy could silently differ from git. Now Colab always runs a pushed commit, and the notebook prints which one, so every result can be traced back to a commit.
 - Added `ONLY` (a run-name filter) for testing single runs.
+
+## 2026-11-03: Colab install cached on Drive
+
+- Every Colab session starts on a clean machine. Most of the install time is compiling CUDA code (gsplat, fused-ssim, fused-bilagrid). The install cell now compiles them once into wheels (gsplat built from source so its CUDA code is compiled ahead of time; the PyPI wheel compiles on first use instead), saves them to `MyDrive/loputoo/wheels/<python_torch_cuda_gpu>/`, and later sessions install from there. Ordinary PyPI packages are still installed normally.
+- The cache folder name includes Python, torch, CUDA and GPU compute capability, so a Colab torch upgrade or a different GPU triggers one fresh compile instead of breaking. Compiling uses `TORCH_CUDA_ARCH_LIST` for the current GPU only, which is faster. If installing from the cache fails, the cell deletes the cache and asks to be rerun.
+- Not yet tested on Colab.
