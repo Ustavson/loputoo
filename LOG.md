@@ -126,3 +126,9 @@ Uncommitted (2):
 
 - The Drive folder is `MyDrive/Colab Notebooks/loputoo`, not `MyDrive/loputoo`. `DRIVE` is now set once, in the cell that mounts Drive, and checked to exist. The path has a space, so the shell commands in the install cell now quote it.
 - Training crashed with `ModuleNotFoundError: No module named 'datasets.colmap'`. gsplat's `examples/datasets/` has no `__init__.py`. For such a folder, Python prefers any installed package with the same name, and Colab ships Hugging Face's `datasets`. Reproduced locally; fixed by `video2splat.py` creating an empty `__init__.py` there before starting the trainer (also covers HPC, if `datasets` is installed there).
+
+## 2026-11-03: NumPy 2 vs gsplat's COLMAP reader
+
+- After the `datasets` fix, training crashed when importing `pycolmap`: `INVALID_POINT3D = np.uint64(-1)` raises `OverflowError` on NumPy 2. gsplat v1.5.3 pins an old pycolmap fork (rmbrualla @ cc7ea4b) and `numpy<2` for this reason. I had dropped the numpy pin, wrongly assuming the code was fine on NumPy 2. Going back to NumPy 1 isn't possible: Colab is on Python 3.13, which NumPy 1.x doesn't support.
+- Fix: after installing, the notebook's install cell rewrites that line to `np.iinfo(np.uint64).max` (the same value, 2^64−1) and checks that `pycolmap` imports. A search of gsplat v1.5.3 (examples + library) and the pinned reader for other APIs NumPy 2 removed found nothing else.
+- Longer term: gsplat's main branch has moved to the official `pycolmap>=3.10` and `numpy>=2`. Upgrading gsplat would remove this patch, but is a bigger change (trainer CLI and outputs may differ). Revisit before the HPC runs.
