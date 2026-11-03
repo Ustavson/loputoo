@@ -93,3 +93,8 @@ Uncommitted (2):
 - Decision: `video2splat.py` uses the global mapper whenever the installed COLMAP has it (`--mapper auto`), and records which mapper ran in `sfm.json` and `summary.json`. Colab's apt COLMAP (3.7) has no global mapper, which is another reason to run COLMAP on the Mac.
 - Checked that COLMAP 4.2.1's binary model has exactly the layout gsplat's reader (rmbrualla/pycolmap) expects: a stdlib parser with the same struct formats consumed every file exactly. The new rigs.bin/frames.bin are ignored by gsplat.
 - Cost on the M4: 200 frames ≈ 9.6 min, so the whole run list (~3000 frames) is about 2 h. One prep folder is ~0.78 MB per frame (frames + `images.bin`, which stores every keypoint).
+
+## 2026-11-03: Colab gets the code from GitHub
+
+- The notebook is now opened straight from GitHub (colab.research.google.com/github/Ustavson/loputoo/blob/main/code/video2splat_colab.ipynb), and it clones or pulls the repo into `/content/loputoo` before running. Drive holds only data (`videos/`, `prep/`, `outputs/`). Why: copying `video2splat.py`/`runs.py` to Drive by hand after every change was error-prone, and the Drive copy could silently differ from git. Now Colab always runs a pushed commit, and the notebook prints which one, so every result can be traced back to a commit.
+- Added `ONLY` (a run-name filter) for testing single runs.
