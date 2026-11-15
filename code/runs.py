@@ -25,21 +25,30 @@ from pathlib import Path
 DEFAULTS = dict(frames=200, fps=None, max_size=1600, overlap=10,
                 config="default", steps=0.25, extra="")
 
-RUNS = [  # video = file name in data/videos/ (Mac) and videos/ in the Drive folder (Colab)
+RUNS = [  # video = path under data/videos/ (Mac) and videos/ in the Drive folder (Colab),
+          # one subfolder per filming day: videos/<YYYY-MM-DD>/<name>.MOV
     # short videos (38 s, 64 s): 200 frames = 3-5 frames per second, plenty
-    dict(name="2026-11-03_short_1_way_quick", video="short_1_way.MOV"),
-    dict(name="2026-11-03_short_2_way_quick", video="short_2_way.MOV"),   # 200 frames = 3.1 fps
+    dict(name="2026-11-03_short_1_way_quick", video="2026-11-03/short_1_way.MOV"),
+    dict(name="2026-11-03_short_2_way_quick", video="2026-11-03/short_2_way.MOV"),   # 200 frames = 3.1 fps
     # frame-rate sweep on short_2_way (64 s): each fps gets its own frames + COLMAP, training is identical
-    dict(name="2026-11-03_short_2_way_fps1_quick",  video="short_2_way.MOV", fps=1),    # ~64 frames
-    dict(name="2026-11-03_short_2_way_fps2_quick",  video="short_2_way.MOV", fps=2),    # ~129
-    dict(name="2026-11-03_short_2_way_fps5_quick",  video="short_2_way.MOV", fps=5),    # ~321
-    dict(name="2026-11-03_short_2_way_fps10_quick", video="short_2_way.MOV", fps=10),   # ~643
+    dict(name="2026-11-03_short_2_way_fps1_quick",  video="2026-11-03/short_2_way.MOV", fps=1),    # ~64 frames
+    dict(name="2026-11-03_short_2_way_fps2_quick",  video="2026-11-03/short_2_way.MOV", fps=2),    # ~129
+    dict(name="2026-11-03_short_2_way_fps5_quick",  video="2026-11-03/short_2_way.MOV", fps=5),    # ~321
+    dict(name="2026-11-03_short_2_way_fps10_quick", video="2026-11-03/short_2_way.MOV", fps=10),   # ~643
     # long videos (7-8 min): 200 frames would be one every ~2.4 s, too sparse; 1 per second = 410-470 frames
-    dict(name="2026-11-03_hole1_fps1_quick", video="hole1.MOV", fps=1),
-    dict(name="2026-11-03_hole2_fps1_quick", video="hole2.MOV", fps=1),
-    dict(name="2026-11-03_long_2_way_fps1_quick", video="long_2_way.MOV", fps=1),
+    dict(name="2026-11-03_hole1_fps1_quick", video="2026-11-03/hole1.MOV", fps=1),
+    dict(name="2026-11-03_hole2_fps1_quick", video="2026-11-03/hole2.MOV", fps=1),
+    dict(name="2026-11-03_long_2_way_fps1_quick", video="2026-11-03/long_2_way.MOV", fps=1),
     # a variant: same frames + COLMAP as the first run, other training strategy
-    dict(name="2026-11-03_short_1_way_mcmc", video="short_1_way.MOV", config="mcmc"),
+    dict(name="2026-11-03_short_1_way_mcmc", video="2026-11-03/short_1_way.MOV", config="mcmc"),
+
+    # 2026-11-14 videos, 4-9 min each. On 03 Nov, 1 fps broke the long videos into many separate
+    # pieces, and 10 fps joined short_2_way. 3 fps is a middle ground COLMAP on the Mac can still handle.
+    # suur.MOV = suur_part1 + suur_part2 joined back to back (538 s).
+    dict(name="2026-11-14_suur_fps3_quick",        video="2026-11-14/suur.MOV", fps=3),         # ~1610 frames
+    dict(name="2026-11-14_roosi_jaama_fps3_quick", video="2026-11-14/roosi_jaama.MOV", fps=3),  # ~690
+    dict(name="2026-11-14_ujula_fps3_quick",       video="2026-11-14/ujula.MOV", fps=3),        # ~810
+    dict(name="2026-11-14_sild_fps3_quick",        video="2026-11-14/sild.MOV", fps=3),         # ~820
 ]
 
 

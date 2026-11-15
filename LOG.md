@@ -132,3 +132,23 @@ Uncommitted (2):
 - After the `datasets` fix, training crashed when importing `pycolmap`: `INVALID_POINT3D = np.uint64(-1)` raises `OverflowError` on NumPy 2. gsplat v1.5.3 pins an old pycolmap fork (rmbrualla @ cc7ea4b) and `numpy<2` for this reason. I had dropped the numpy pin, wrongly assuming the code was fine on NumPy 2. Going back to NumPy 1 isn't possible: Colab is on Python 3.13, which NumPy 1.x doesn't support.
 - Fix: after installing, the notebook's install cell rewrites that line to `np.iinfo(np.uint64).max` (the same value, 2^64−1) and checks that `pycolmap` imports. A search of gsplat v1.5.3 (examples + library) and the pinned reader for other APIs NumPy 2 removed found nothing else.
 - Longer term: gsplat's main branch has moved to the official `pycolmap>=3.10` and `numpy>=2`. Upgrading gsplat would remove this patch, but is a bigger change (trainer CLI and outputs may differ). Revisit before the HPC runs.
+
+
+### 2026-11-05 13:51 · session end (auto)
+
+Commits:
+- `9bd151d` Add video-to-splat pipeline: Mac COLMAP prep, Colab training
+- `f0d1782` Pull code from GitHub in the Colab notebook
+- `aaf5928` Cache compiled gsplat wheels on Drive in the Colab notebook
+- `2866c05` Fix Colab Drive path and gsplat datasets import clash
+- `b1397ed` Patch gsplat's pycolmap reader for NumPy 2 in the Colab install
+
+Uncommitted (1):
+- `??` notes/2026-11-04-meeting/
+
+## 2026-11-15: Second filming day (14 Nov) added; data folders reorganised
+
+- Five new iPhone 16 videos from 14 Nov (1080p30 HLG HDR, like the first ones): suur_part1/part2, roosi_jaama, ujula, sild. `suur_part1` and `suur_part2` are one walk with a ~46 s pause between them, and part2 starts where part1 ended. They were joined into `suur.MOV` (538 s) with ffmpeg's concat demuxer and stream copy (no re-encode). Checked: frame counts add up (4249 + 11893 = 16142), and the HLG transfer tag and portrait rotation survive, so `video2splat.py` still converts HDR to SDR and keeps the frames upright.
+- `data/videos/` now has one subfolder per filming day (`2026-11-03/`, `2026-11-14/`), and `runs.py` gives each video's path relative to `videos/`. Old prep folders stay valid: `prep_key` and the `prep.json` check use only the file name. Drive's `videos/` needs the same subfolders.
+- Local `outputs/` held loose `.ply` files with inconsistent names. They are now in `outputs/<run name>/splat.ply`, the same layout as on Drive.
+- New runs use 3 fps. On 03 Nov, 1 fps broke the long videos into many separate pieces, and 10 fps was the only rate that joined short_2_way. 10 fps on 4-9 min videos would be 7000-16000 frames, too many for COLMAP on the Mac and for a T4. 3 fps (690-1610 frames) is a middle ground. If these still break into pieces, the next step is choosing the sharpest frames or adding loop-closure matching (see 2026-11-03).
