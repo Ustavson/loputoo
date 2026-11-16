@@ -9,7 +9,9 @@ Usage:
 
 Each step writes into WORKDIR and is skipped if its output already exists, so
 you can rerun after a crash, or run frames + SfM on the Mac (`--stop-after sfm`,
-needs `brew install colmap`) and only the training on a GPU machine.
+needs `brew install colmap`) and only the training on a GPU machine. Once
+WORKDIR has frames + SfM, the video itself is no longer needed: VIDEO may then
+point to a file that doesn't exist (only its name is checked against prep.json).
 
 One WORKDIR holds one set of frames + SfM, which several training variants can
 share: rerun with another `--variant NAME` (and other training options) and only
@@ -284,13 +286,23 @@ def main():
     if args.variant is None:
         args.variant = f"{args.trainer_config}_x{args.steps_scaler:g}"
 
-    if not args.video.exists():
-        sys.exit(f"{args.video} not found")
     if args.frames is None and args.fps is None:
         args.frames = 200
-    duration, transfer = probe(args.video)
-    fps = args.fps or args.frames / duration
     work = args.workdir
+    images = work / "images"
+    prep_done = ((work / "prep.json").exists() and (work / "sparse" / "0" / "cameras.bin").exists()
+                 and images.is_dir() and any(images.iterdir()))
+    if prep_done:
+        # Frames + SfM are finished, so the video isn't read (Colab can train from a prep
+        # folder alone). The settings check uses the colour transfer recorded in prep.json.
+        transfer = json.loads((work / "prep.json").read_text())["color_transfer"]
+        fps = None  # only used for extracting frames, which is skipped
+        print(f"[prep] {work} already has frames + SfM, not reading the video")
+    else:
+        if not args.video.exists():
+            sys.exit(f"{args.video} not found")
+        duration, transfer = probe(args.video)
+        fps = args.fps or args.frames / duration
     work.mkdir(parents=True, exist_ok=True)
     same_settings(work / "prep.json", {"video": args.video.name, "frames": args.frames,
                                        "fps": args.fps, "max_size": args.max_size,

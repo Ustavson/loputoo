@@ -27,6 +27,7 @@ DEFAULTS = dict(frames=200, fps=None, max_size=1600, overlap=10,
 
 RUNS = [  # video = path under data/videos/ (Mac) and videos/ in the Drive folder (Colab),
           # one subfolder per filming day: videos/<YYYY-MM-DD>/<name>.MOV
+          # (Colab needs the video only if the run's prep folder isn't on Drive)
     # short videos (38 s, 64 s): 200 frames = 3-5 frames per second, plenty
     dict(name="2026-11-03_short_1_way_quick", video="2026-11-03/short_1_way.MOV"),
     dict(name="2026-11-03_short_2_way_quick", video="2026-11-03/short_2_way.MOV"),   # 200 frames = 3.1 fps
